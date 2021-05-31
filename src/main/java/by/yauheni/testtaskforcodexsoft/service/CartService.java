@@ -5,7 +5,6 @@ import by.yauheni.testtaskforcodexsoft.entity.Item;
 import by.yauheni.testtaskforcodexsoft.entity.User;
 import by.yauheni.testtaskforcodexsoft.repository.CartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -19,10 +18,6 @@ public class CartService {
     @Autowired
     public CartService(CartRepository cartRepository) {
         this.cartRepository = cartRepository;
-    }
-
-    public boolean existsInCart(Item item){
-        return cartRepository.existsByItemsContains(item);
     }
 
     public ResponseEntity<HttpStatus> removeFromCart(Item item, User user) {

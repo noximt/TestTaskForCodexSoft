@@ -13,8 +13,12 @@ import javax.servlet.http.HttpServletResponse;
 
 @Component
 public class TokenInterceptor implements HandlerInterceptor {
-    @Autowired
     private TokenRepository tokenRepository;
+
+    @Autowired
+    public TokenInterceptor(TokenRepository tokenRepository) {
+        this.tokenRepository = tokenRepository;
+    }
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {

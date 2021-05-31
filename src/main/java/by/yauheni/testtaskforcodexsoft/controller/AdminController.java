@@ -29,8 +29,15 @@ public class AdminController {
         return response;
     }
 
-//    @DeleteMapping(path = "/deleteItem")
-//    public ResponseEntity<HttpStatus> deleteItem(@RequestParam String name){
-//
-//    }
+    @DeleteMapping(path = "/deleteItem")
+    public ResponseEntity<HttpStatus> deleteItem(@RequestParam String name){
+        ResponseEntity<HttpStatus> response = itemService.delete(name);
+        return response;
+    }
+
+    @PatchMapping(path = "/forceUpdate")
+    public ResponseEntity<HttpStatus> forceUpdate(@RequestBody Item item){
+        ResponseEntity<HttpStatus> response = itemService.forceUpdate(item);
+        return response;
+    }
 }

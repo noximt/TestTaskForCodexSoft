@@ -39,7 +39,6 @@ public class UserController {
 
     @PostMapping(path = "/addToCart")
     public ResponseEntity<HttpStatus> addToCart(@RequestBody Item item, User user) {
-
         ResponseEntity<HttpStatus> response = cartService.addToCart(item, user);
         return response;
     }

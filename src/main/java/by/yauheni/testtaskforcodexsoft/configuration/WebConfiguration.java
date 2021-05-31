@@ -10,12 +10,15 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @Configuration
 @EnableWebMvc
 public class WebConfiguration extends WebMvcConfigurerAdapter {
+    private TokenInterceptor tokenInterceptor;
 
     @Autowired
-    private TokenInterceptor tokenInterceptor;
+    public WebConfiguration(TokenInterceptor tokenInterceptor) {
+        this.tokenInterceptor = tokenInterceptor;
+    }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(tokenInterceptor);
+        registry.addInterceptor(tokenInterceptor).addPathPatterns("/users","/admin", "/items");
     }
 }
