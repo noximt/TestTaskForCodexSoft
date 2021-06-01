@@ -1,5 +1,6 @@
 package by.yauheni.testtaskforcodexsoft.controller;
 
+import by.yauheni.testtaskforcodexsoft.entity.Cart;
 import by.yauheni.testtaskforcodexsoft.entity.Item;
 import by.yauheni.testtaskforcodexsoft.entity.User;
 import by.yauheni.testtaskforcodexsoft.service.CartService;
@@ -50,6 +51,12 @@ public class UserController {
     public ResponseEntity<HttpStatus> removeFromCart(@RequestBody Item item, HttpServletRequest request){
         User user = (User) request.getAttribute("user");
         ResponseEntity<HttpStatus> response = cartService.removeFromCart(item, user);
+        return response;
+    }
+
+    @PostMapping("/buy")
+    public ResponseEntity<HttpStatus> buy(@RequestBody Cart cart){
+        ResponseEntity<HttpStatus> response = userService.buy(cart);
         return response;
     }
 }

@@ -16,12 +16,15 @@ GET http://localhost:8080/users/auth?nickname=noximt&password=qwerty
 
 POST http://localhost:8080/admin/saveItem
 Content-Type: application/json
-X-Token: fe03a81e-4e0f-438d-bca6-870df06d27c9
+X-Token: f9442323-56fa-49d4-924f-5384a15151e4
 
 {
   "name": "Drill",
   "description": "Some description",
-  "tag": ["tools", "electronics"]
+  "tag": [
+    "tools",
+    "electronics"
+  ]
 }
 
 ###
@@ -32,16 +35,41 @@ Content-Type: application/json
 {
   "name": "Drill",
   "description": "Some more description",
-  "tag": ["TOOLS", "ELECTRONICS"]
+  "tag": [
+    "TOOLS",
+    "ELECTRONICS"
+  ]
 }
 
 ###
 
 POST http://localhost:8080/users/addToCart
 Content-Type: application/json
-X-Token: fe03a81e-4e0f-438d-bca6-870df06d27c9
+X-Token: f9442323-56fa-49d4-924f-5384a15151e4
 
 {
   "name": "Drill",
   "description": "Some description"
+}
+
+###
+
+POST http://localhost:8080/users/buy
+Content-Type: application/json
+X-Token: f9442323-56fa-49d4-924f-5384a15151e4
+
+{
+  "id": 1,
+  "user": {
+    "type": "USER",
+    "nickname": "noximt",
+    "password": "qwerty",
+    "email": "noximt@gmail.com"
+  },
+  "items": [
+    {
+      "name": "Drill",
+      "description": "Some description"
+    }
+  ]
 }
