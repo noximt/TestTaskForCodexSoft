@@ -16,12 +16,12 @@ GET http://localhost:8080/users/auth?nickname=noximt&password=qwerty
 
 POST http://localhost:8080/admin/saveItem
 Content-Type: application/json
-X-Token: 148c8259-37f1-4696-8ad5-d03df2383033
+X-Token: fe03a81e-4e0f-438d-bca6-870df06d27c9
 
 {
   "name": "Drill",
   "description": "Some description",
-  "tag": ["TOOLS"]
+  "tag": ["tools", "electronics"]
 }
 
 ###
@@ -39,7 +39,7 @@ Content-Type: application/json
 
 POST http://localhost:8080/users/addToCart
 Content-Type: application/json
-
+X-Token: fe03a81e-4e0f-438d-bca6-870df06d27c9
 
 {
   "name": "Drill",

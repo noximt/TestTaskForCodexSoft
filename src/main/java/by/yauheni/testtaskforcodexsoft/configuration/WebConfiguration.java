@@ -19,6 +19,6 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(tokenInterceptor).addPathPatterns("/users","/admin", "/items");
+        registry.addInterceptor(tokenInterceptor).addPathPatterns("/admin/*", "/users/addToCart", "/users/removeFromCart", "/items/*");
     }
 }

@@ -27,27 +27,27 @@ public class ItemService {
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
-    public ResponseEntity<Item> update(Item item){
-        if (cartRepository.existsByItemsContains(item)){
+    public ResponseEntity<Item> update(Item item) {
+        if (cartRepository.existsByItemsContains(item)) {
             return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
-        }else{
+        } else {
             itemRepository.save(item);
             return new ResponseEntity<>(item, HttpStatus.NOT_ACCEPTABLE);
         }
     }
 
 
-    public ResponseEntity<HttpStatus> forceUpdate(Item item){
+    public ResponseEntity<HttpStatus> forceUpdate(Item item) {
         if (itemRepository.existsById(item.getName())) {
             itemRepository.save(item);
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
-        }else{
+        } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    public ResponseEntity<HttpStatus> delete(String name){
-        if (itemRepository.existsById(name)){
+    public ResponseEntity<HttpStatus> delete(String name) {
+        if (itemRepository.existsById(name)) {
             Item byId = itemRepository.getById(name);
             itemRepository.delete(byId);
             return new ResponseEntity<>(HttpStatus.ACCEPTED);

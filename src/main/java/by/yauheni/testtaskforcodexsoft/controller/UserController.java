@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
 @RequestMapping(path = "/users")
 @Api("User Controller")
@@ -38,13 +40,15 @@ public class UserController {
     }
 
     @PostMapping(path = "/addToCart")
-    public ResponseEntity<HttpStatus> addToCart(@RequestBody Item item, User user) {
+    public ResponseEntity<HttpStatus> addToCart(@RequestBody Item item, HttpServletRequest request) {
+        User user = (User) request.getAttribute("user");
         ResponseEntity<HttpStatus> response = cartService.addToCart(item, user);
         return response;
     }
 
     @PostMapping(path = "/removeFromCart")
-    public ResponseEntity<HttpStatus> removeFromCart(@RequestBody Item item, User user){
+    public ResponseEntity<HttpStatus> removeFromCart(@RequestBody Item item, HttpServletRequest request){
+        User user = (User) request.getAttribute("user");
         ResponseEntity<HttpStatus> response = cartService.removeFromCart(item, user);
         return response;
     }

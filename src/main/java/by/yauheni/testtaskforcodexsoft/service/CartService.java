@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -34,41 +35,29 @@ public class CartService {
     }
 
     public ResponseEntity<HttpStatus> addToCart(Item item, User user) {
-        Cart cart = getCartOrCreateNew(user);
-        if (setItemInCart(item, cart)) {
-            return new ResponseEntity<>(HttpStatus.ACCEPTED);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+        Cart cart;
+        List<Item> items;
+        if (cartRepository.existsByUser(user)) {
+            cart = cartRepository.findByUser(user);
+            items = cart.getItems();
+            for (Item itm : items) {
+                if (itm.equals(item)){
+                    return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+                }
+            }
+        }else{
+            cart = new Cart();
+            items = new ArrayList<>();
+            cart.setItems(items);
+            cart.setUser(user);
         }
+        addToItemsInCart(item, cart, items);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
-    private boolean setItemInCart(Item item, Cart cart) {
-        List<Item> items = cart.getItems();
-        if (isExist(item, items)) {
-            return false;
-        }
+    private void addToItemsInCart(Item item, Cart cart, List<Item> items) {
         items.add(item);
         cart.setItems(items);
         cartRepository.save(cart);
-        return true;
-    }
-
-    private boolean isExist(Item item, List<Item> items) {
-        for (Item item1 : items) {
-            if (item1.equals(item)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private Cart getCartOrCreateNew(User user) {
-        Cart cart;
-        if (cartRepository.existsByUser(user)) {
-            cart = cartRepository.findByUser(user);
-        } else {
-            cart = new Cart(user);
-        }
-        return cart;
     }
 }

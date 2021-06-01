@@ -6,12 +6,14 @@ import by.yauheni.testtaskforcodexsoft.repository.TokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Component
+@Transactional
 public class TokenInterceptor implements HandlerInterceptor {
     private TokenRepository tokenRepository;
 
