@@ -1,6 +1,7 @@
 package by.yauheni.testtaskforcodexsoft.interceptor;
 
 import by.yauheni.testtaskforcodexsoft.entity.Token;
+import by.yauheni.testtaskforcodexsoft.entity.Type;
 import by.yauheni.testtaskforcodexsoft.entity.User;
 import by.yauheni.testtaskforcodexsoft.service.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +15,11 @@ import javax.servlet.http.HttpServletResponse;
 
 @Component
 @Transactional
-public class TokenInterceptor implements HandlerInterceptor {
+public class PermissionInterceptor implements HandlerInterceptor {
     private final TokenService tokenService;
 
     @Autowired
-    public TokenInterceptor(TokenService tokenService) {
+    public PermissionInterceptor(TokenService tokenService) {
         this.tokenService = tokenService;
     }
 
@@ -26,13 +27,13 @@ public class TokenInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         String uuid = request.getHeader("X-Token");
         if (tokenService.tokenContains(uuid)){
-            Token byId = tokenService.getByUUID(uuid);
-            User user = byId.getUser();
-            request.setAttribute("user", user);
-            return true;
-        }else{
-            response.setStatus(HttpStatus.UNAUTHORIZED.value());
-            return false;
+            Token token = tokenService.getByUUID(uuid);
+            User user = token.getUser();
+            if (user.getType().equals(Type.USER)){
+                response.setStatus(HttpStatus.FORBIDDEN.value());
+                return false;
+            }
         }
+        return true;
     }
 }

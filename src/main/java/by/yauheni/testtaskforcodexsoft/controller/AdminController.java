@@ -24,8 +24,8 @@ public class AdminController {
     }
 
     @PatchMapping(path = "/updateItem")
-    public ResponseEntity<Item> updateItem(@RequestBody Item item){
-        ResponseEntity<Item> response = itemService.update(item);
+    public ResponseEntity<HttpStatus> updateItem(@RequestBody Item item){
+        ResponseEntity<HttpStatus> response = itemService.save(item);
         return response;
     }
 

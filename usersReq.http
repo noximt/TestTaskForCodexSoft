@@ -4,26 +4,28 @@ Content-Type: application/json
 {
   "type": "USER",
   "nickname": "noximt",
-  "password": "qwerty",
+  "password": "test",
   "email": "noximt@gmail.com"
 }
 
 ###
 
-GET http://localhost:8080/users/auth?nickname=noximt&password=qwerty
+GET http://localhost:8080/users/auth?nickname=noximt&password=test
 
 ###
 
 POST http://localhost:8080/admin/saveItem
 Content-Type: application/json
-X-Token: f9442323-56fa-49d4-924f-5384a15151e4
+X-Token:e417ed34-04c5-4b9c-81af-a4b0df587bc9
 
 {
   "name": "Drill",
   "description": "Some description",
-  "tag": [
-    "tools",
-    "electronics"
+  "tags": [
+    {"id": 1,
+      "tag": "tools"},
+    {"id": 2,
+      "tag": "electronics"}
   ]
 }
 
@@ -31,13 +33,28 @@ X-Token: f9442323-56fa-49d4-924f-5384a15151e4
 
 PATCH http://localhost:8080/admin/updateItem
 Content-Type: application/json
+X-Token: 0199d7cc-5b97-4b4d-8b1c-2bb11916413b
 
 {
   "name": "Drill",
   "description": "Some more description",
-  "tag": [
-    "TOOLS",
-    "ELECTRONICS"
+  "tags": [
+    {"id": 1,
+      "tag": "tools"}
+  ]
+}
+
+###
+PATCH http://localhost:8080/admin/forceUpdate
+Content-Type: application/json
+X-Token: 0199d7cc-5b97-4b4d-8b1c-2bb11916413b
+
+{
+  "name": "Drill",
+  "description": "Some more description",
+  "tags": [
+    {"id": 1,
+    "tag": "tools"}
   ]
 }
 
@@ -45,11 +62,20 @@ Content-Type: application/json
 
 POST http://localhost:8080/users/addToCart
 Content-Type: application/json
-X-Token: f9442323-56fa-49d4-924f-5384a15151e4
+X-Token: e417ed34-04c5-4b9c-81af-a4b0df587bc9
 
 {
-  "name": "Drill",
-  "description": "Some description"
+  "name": "Drill"
+}
+
+###
+
+POST http://localhost:8080/users/removeFromCart
+Content-Type: application/json
+X-Token: 0e24779a-c277-48cc-b5f5-7ce2cefeadf5
+
+{
+  "name": "Drill"
 }
 
 ###

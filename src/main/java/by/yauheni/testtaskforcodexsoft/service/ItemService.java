@@ -1,12 +1,17 @@
 package by.yauheni.testtaskforcodexsoft.service;
 
+import by.yauheni.testtaskforcodexsoft.entity.Cart;
 import by.yauheni.testtaskforcodexsoft.entity.Item;
 import by.yauheni.testtaskforcodexsoft.entity.Tag;
+import by.yauheni.testtaskforcodexsoft.entity.User;
 import by.yauheni.testtaskforcodexsoft.repository.CartRepository;
 import by.yauheni.testtaskforcodexsoft.repository.ItemRepository;
+import by.yauheni.testtaskforcodexsoft.repository.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,31 +20,44 @@ import java.util.List;
 public class ItemService {
     private final ItemRepository itemRepository;
     private final CartRepository cartRepository;
+    private final JavaMailSender mailSender;
+    private final TagRepository tagRepository;
 
     @Autowired
-    public ItemService(ItemRepository itemRepository, CartRepository cartService) {
+    public ItemService(ItemRepository itemRepository, CartRepository cartRepository, JavaMailSender mailSender, TagRepository tagRepository) {
         this.itemRepository = itemRepository;
-        this.cartRepository = cartService;
+        this.cartRepository = cartRepository;
+        this.mailSender = mailSender;
+        this.tagRepository = tagRepository;
     }
 
     public ResponseEntity<HttpStatus> save(Item item) {
+        saveTags(item);
         itemRepository.save(item);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
-    public ResponseEntity<Item> update(Item item) {
-        if (cartRepository.existsByItemsContains(item)) {
-            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
-        } else {
-            itemRepository.save(item);
-            return new ResponseEntity<>(item, HttpStatus.NOT_ACCEPTABLE);
+    private void saveTags(Item item) {
+        List<Tag> tags = item.getTags();
+        for (Tag tag : tags) {
+            if (!tagRepository.existsById(tag.getId())){
+                tagRepository.save(tag);
+            }
         }
     }
-
 
     public ResponseEntity<HttpStatus> forceUpdate(Item item) {
         if (itemRepository.existsById(item.getName())) {
             itemRepository.save(item);
+            SimpleMailMessage message = new SimpleMailMessage();
+            List<Cart> byItemsContains = cartRepository.findByItemsContains(item);
+            for (Cart cart : byItemsContains) {
+                User user = cart.getUser();
+                message.setTo(user.getEmail());
+            }
+            message.setSubject("Notification");
+            message.setText("The item: " + item.getName() + ", which was in your cart was changed by admin");
+            this.mailSender.send(message);
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
