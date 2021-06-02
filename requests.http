@@ -1,0 +1,98 @@
+POST http://localhost:8080/admin/saveItem
+Content-Type: application/json
+X-Token:47d73d74-5df5-4a45-b448-2bb7793e6b1d
+
+{
+  "name": "Shovel",
+  "description": "Shovel description",
+  "tags": [
+    {"id": 1,
+      "tag": "tools"},
+    {"id": 3,
+      "tag": "gardening"}
+  ]
+}
+
+###
+
+PATCH http://localhost:8080/admin/updateItem
+Content-Type: application/json
+X-Token: 6a84026b-47d5-40e9-b2ca-0e2d0b7aa0b3
+
+{
+  "name": "Drill",
+  "description": "Some more description",
+  "tags": [
+    {"id": 1,
+      "tag": "tools"}
+  ]
+}
+
+###
+PATCH http://localhost:8080/admin/forceUpdate
+Content-Type: application/json
+X-Token: 6a84026b-47d5-40e9-b2ca-0e2d0b7aa0b3
+
+{
+  "name": "Drill",
+  "description": "Some more description",
+  "tags": [
+    {"id": 1,
+    "tag": "tools"}
+  ]
+}
+
+###
+
+POST http://localhost:8080/users/addToCart
+Content-Type: application/json
+X-Token: 7a63ace7-9484-4c0b-a912-9bd8ced70bbc
+
+{
+  "name": "Drill"
+}
+
+###
+
+POST http://localhost:8080/users/removeFromCart
+Content-Type: application/json
+X-Token: 0e24779a-c277-48cc-b5f5-7ce2cefeadf5
+
+{
+  "name": "Drill"
+}
+
+###
+
+POST http://localhost:8080/users/buy
+Content-Type: application/json
+X-Token: f9442323-56fa-49d4-924f-5384a15151e4
+
+{
+  "id": 1,
+  "user": {
+    "type": "USER",
+    "nickname": "noximt",
+    "password": "qwerty",
+    "email": "noximt@gmail.com"
+  },
+  "items": [
+    {
+      "name": "Drill",
+      "description": "Some description"
+    }
+  ]
+}
+
+###
+
+POST http://localhost:8080/users/search
+Content-Type: application/json
+X-Token: c6d2d0d5-0cd0-49f2-b5f4-936fa9a59c09
+
+{
+  "tags": [
+    {"id": 1,
+      "tag": "tools"}
+  ]
+}
