@@ -34,15 +34,15 @@ public class UserService {
     }
 
     @ResponseBody
-    public ResponseEntity<HttpStatus> register(User user) {
+    public boolean register(User user) {
         if (userRepository.existsById(user.getNickname())) {
-            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+            return false;
         }
         userRepository.save(user);
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        return true;
     }
 
-    public ResponseEntity<String> authorize(String nickname, String password) {
+    public String authorize(String nickname, String password) {
         if (userRepository.existsById(nickname)) {
             User userFromDB = userRepository.getById(nickname);
             if (password.equals(userFromDB.getPassword())){
@@ -50,13 +50,13 @@ public class UserService {
                 String tokenId = uuid.toString();
                 User byId = userRepository.getById(nickname);
                 tokenRepository.save(new Token(tokenId, byId));
-                return new ResponseEntity<>(tokenId,HttpStatus.ACCEPTED);
+                return tokenId;
             }
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return "Wrong data";
     }
 
-    public ResponseEntity<HttpStatus> buy(Cart cart){
+    public boolean buy(Cart cart){
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(cart.getUser().getEmail());
         message.setSubject("Purchase");
@@ -66,12 +66,12 @@ public class UserService {
         return clearCart(cart);
     }
 
-    private ResponseEntity<HttpStatus> clearCart(Cart cart) {
+    private boolean clearCart(Cart cart) {
         cartRepository.delete(cart);
         if (cartRepository.existsById(cart.getId())){
-            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+            return false;
         }else{
-            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+            return true;
         }
     }
 

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 public interface ItemRepository extends JpaRepository<Item, String> {
-    Item findByTagsContains(Tag tag);
-    List<Item> findByDescription(String description);
+    List<Item> findByTagsContains(Tag tag);
+    Item findByDescription(String description);
+    boolean existsByDescription(String description);
 }

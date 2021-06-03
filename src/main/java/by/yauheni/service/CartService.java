@@ -21,20 +21,20 @@ public class CartService {
         this.cartRepository = cartRepository;
     }
 
-    public ResponseEntity<HttpStatus> removeFromCart(Item item, User user) {
+    public boolean removeFromCart(Item item, User user) {
         if (cartRepository.existsByUser(user)) {
             Cart cart = cartRepository.findByUser(user);
             List<Item> items = cart.getItems();
             if (items.remove(item)) {
                 cart.setItems(items);
                 cartRepository.save(cart);
-                return new ResponseEntity<>(HttpStatus.ACCEPTED);
+                return true;
             }
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return false;
     }
 
-    public ResponseEntity<HttpStatus> addToCart(Item item, User user) {
+    public boolean addToCart(Item item, User user) {
         Cart cart;
         List<Item> items;
         if (cartRepository.existsByUser(user)) {
@@ -42,7 +42,7 @@ public class CartService {
             items = cart.getItems();
             for (Item itm : items) {
                 if (itm.equals(item)){
-                    return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+                    return false;
                 }
             }
         }else{
@@ -52,7 +52,7 @@ public class CartService {
             cart.setUser(user);
         }
         addToItemsInCart(item, cart, items);
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        return true;
     }
 
     private void addToItemsInCart(Item item, Cart cart, List<Item> items) {

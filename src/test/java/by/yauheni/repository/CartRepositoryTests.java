@@ -26,15 +26,6 @@ public class CartRepositoryTests {
         this.cart = new Cart(this.user, null);
     }
 
-//    @Test
-//    void saveCartTest() {
-//        this.cart.setId(3L);
-//        userRepository.save(this.user);
-//        cartRepository.save(this.cart);
-//        Cart byId = cartRepository.getById(3L);
-//        assertEquals(byId, this.cart);
-//    }
-
     @Test
     void autoIncrementIdTest() {
         Cart cart1 = new Cart();

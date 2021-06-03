@@ -14,7 +14,9 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ItemService {
@@ -40,34 +42,38 @@ public class ItemService {
     private void saveTags(Item item) {
         List<Tag> tags = item.getTags();
         for (Tag tag : tags) {
-            if (!tagRepository.existsById(tag.getId())){
+            if (!tagRepository.existsById(tag.getId())) {
                 tagRepository.save(tag);
             }
         }
     }
 
-    public ResponseEntity<Item> update(Item item) {
-        if (cartRepository.existsByItemsContains(item)) {
-            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
-        } else {
-            itemRepository.save(item);
-            return new ResponseEntity<>(item, HttpStatus.NOT_ACCEPTABLE);
+    public boolean update(Item item) {
+        if (itemRepository.existsById(item.getName())) {
+            if (cartRepository.existsByItemsContains(item)) {
+                return false;
+            } else {
+                saveTags(item);
+                itemRepository.save(item);
+                return true;
+            }
+        }else {
+            return false;
         }
     }
 
-    public ResponseEntity<HttpStatus> forceUpdate(Item item) {
+    public boolean forceUpdate(Item item) {
         if (itemRepository.existsById(item.getName())) {
+            saveTags(item);
             itemRepository.save(item);
-
             List<Cart> byItemsContains = cartRepository.findByItemsContains(item);
             for (Cart cart : byItemsContains) {
                 User user = cart.getUser();
                 sendMessage(item, user);
             }
-
-            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+            return true;
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return false;
         }
     }
 
@@ -75,27 +81,29 @@ public class ItemService {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(user.getEmail());
         message.setSubject("Notification");
-        message.setText("The item: " + item.getName() + ", which was in your cart was changed by admin");
+        message.setText("The item: " + item.getName() + "was changed by admin");
         this.mailSender.send(message);
     }
 
-    public ResponseEntity<HttpStatus> delete(String name) {
+    public boolean delete(String name) {
         if (itemRepository.existsById(name)) {
-            Item byId = itemRepository.getById(name);
-            itemRepository.delete(byId);
-            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+            itemRepository.deleteById(name);
+            return true;
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return false;
     }
 
-    public ResponseEntity<List<Item>> search(Item item) {
-        String description = item.getDescription();
-        List<Item> byDescription = itemRepository.findByDescription(description);
-        List<Tag> tags = item.getTags();
+    public Optional<Item> searchByDescription(String description) {
+        Optional<Item> byDescription = Optional.of(itemRepository.findByDescription(description));
+        return byDescription;
+    }
+
+    public List<Item> searchByTags(List<Tag> tags) {
+        List<Item> items = new ArrayList<>();
         for (Tag tag : tags) {
-            Item byTagsContains = itemRepository.findByTagsContains(tag);
-            byDescription.add(byTagsContains);
+            List<Item> byTagsContains = itemRepository.findByTagsContains(tag);
+            items.addAll(byTagsContains);
         }
-        return new ResponseEntity<>(byDescription, HttpStatus.ACCEPTED);
+        return items;
     }
 }

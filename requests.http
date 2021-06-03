@@ -1,15 +1,15 @@
 POST http://localhost:8080/admin/saveItem
 Content-Type: application/json
-X-Token: fd6d4107-9e2b-4f08-afd9-ae7574b1424d
+X-Token: 80b0f0d6-16bf-4f8a-b657-69cc40b9b574
 
 {
-  "name": "Shovel",
-  "description": "Shovel description",
+  "name": "Drill",
+  "description": "Drill description",
   "tags": [
-    {"id": 1,
-      "tag": "tools"},
-    {"id": 3,
-      "tag": "gardening"}
+    {
+      "id": 1,
+      "tag": "tools"
+    }
   ]
 }
 
@@ -17,28 +17,48 @@ X-Token: fd6d4107-9e2b-4f08-afd9-ae7574b1424d
 
 PATCH http://localhost:8080/admin/updateItem
 Content-Type: application/json
-X-Token: 5b473da4-3bf7-4703-a626-300560f51c84
+X-Token: 455db1a0-54f8-49df-bcfc-bae97225140d
 
 {
-  "name": "Drill",
-  "description": "Some more description",
+  "name": "Shovel",
+  "description": "Some other description",
   "tags": [
-    {"id": 1,
-      "tag": "tools"}
+    {
+      "id": 1,
+      "tag": "tools"
+    },
+    {
+      "id": 2,
+      "tag": "gardening"
+    },
+    {
+      "id": 3,
+      "tag": "for home"
+    }
   ]
 }
 
 ###
 PATCH http://localhost:8080/admin/forceUpdate
 Content-Type: application/json
-X-Token: 6a84026b-47d5-40e9-b2ca-0e2d0b7aa0b3
+X-Token: 455db1a0-54f8-49df-bcfc-bae97225140d
 
 {
-  "name": "Drill",
-  "description": "Some more description",
+  "name": "Shovel",
+  "description": "Some other description",
   "tags": [
-    {"id": 1,
-    "tag": "tools"}
+    {
+      "id": 1,
+      "tag": "tools"
+    },
+    {
+      "id": 2,
+      "tag": "gardening"
+    },
+    {
+      "id": 3,
+      "tag": "for home"
+    }
   ]
 }
 
@@ -46,20 +66,50 @@ X-Token: 6a84026b-47d5-40e9-b2ca-0e2d0b7aa0b3
 
 POST http://localhost:8080/users/addToCart
 Content-Type: application/json
-X-Token: 7a63ace7-9484-4c0b-a912-9bd8ced70bbc
+X-Token: 455db1a0-54f8-49df-bcfc-bae97225140d
 
 {
-  "name": "Drill"
+  "name": "Shovel",
+  "description": "Some other description",
+  "tags": [
+    {
+      "id": 1,
+      "tag": "tools"
+    },
+    {
+      "id": 2,
+      "tag": "gardening"
+    },
+    {
+      "id": 3,
+      "tag": "for home"
+    }
+  ]
 }
 
 ###
 
 POST http://localhost:8080/users/removeFromCart
 Content-Type: application/json
-X-Token: 0e24779a-c277-48cc-b5f5-7ce2cefeadf5
+X-Token: 455db1a0-54f8-49df-bcfc-bae97225140d
 
 {
-  "name": "Drill"
+  "name": "Shovel",
+  "description": "Some other description",
+  "tags": [
+    {
+      "id": 1,
+      "tag": "tools"
+    },
+    {
+      "id": 2,
+      "tag": "gardening"
+    },
+    {
+      "id": 3,
+      "tag": "for home"
+    }
+  ]
 }
 
 ###
@@ -78,21 +128,51 @@ X-Token: f9442323-56fa-49d4-924f-5384a15151e4
   },
   "items": [
     {
-      "name": "Drill",
-      "description": "Some description"
+      "name": "Shovel",
+      "description": "Some other description",
+      "tags": [
+        {
+          "id": 1,
+          "tag": "tools"
+        },
+        {
+          "id": 2,
+          "tag": "gardening"
+        },
+        {
+          "id": 3,
+          "tag": "for home"
+        }
+      ]
     }
   ]
 }
 
 ###
 
-POST http://localhost:8080/users/search
+POST http://localhost:8080/users/searchByTags
 Content-Type: application/json
-X-Token: c6d2d0d5-0cd0-49f2-b5f4-936fa9a59c09
+X-Token: 80b0f0d6-16bf-4f8a-b657-69cc40b9b574
 
-{
-  "tags": [
-    {"id": 1,
-      "tag": "tools"}
-  ]
-}
+[
+  {
+    "id": 1,
+    "tag": "tools"
+  },
+  {
+    "id": 2,
+    "tag": "gardening"
+  },
+  {
+    "id": 3,
+    "tag": "for home"
+  }
+]
+
+
+###
+
+GET http://localhost:8080/users/searchByDescription?description=Drill description
+X-Token: 80b0f0d6-16bf-4f8a-b657-69cc40b9b574
+
+###

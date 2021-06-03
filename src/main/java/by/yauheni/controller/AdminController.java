@@ -29,22 +29,31 @@ public class AdminController {
 
     @PatchMapping(path = "/updateItem")
     @ApiOperation("Update item")
-    public ResponseEntity<Item> updateItem(@RequestBody Item item){
-        ResponseEntity<Item> response = itemService.update(item);
-        return response;
+    public ResponseEntity<HttpStatus> updateItem(@RequestBody Item item){
+        boolean bool = itemService.update(item);
+        if (bool){
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        }
+        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 
     @DeleteMapping(path = "/deleteItem")
     @ApiOperation("Delete item")
     public ResponseEntity<HttpStatus> deleteItem(@RequestParam String name){
-        ResponseEntity<HttpStatus> response = itemService.delete(name);
-        return response;
+        boolean bool = itemService.delete(name);
+        if (bool){
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PatchMapping(path = "/forceUpdate")
     @ApiOperation("Force update item")
     public ResponseEntity<HttpStatus> forceUpdate(@RequestBody Item item){
-        ResponseEntity<HttpStatus> response = itemService.forceUpdate(item);
-        return response;
+        boolean bool = itemService.forceUpdate(item);
+        if (bool){
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        }
+        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 }
