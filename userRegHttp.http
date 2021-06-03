@@ -1,0 +1,47 @@
+POST http://localhost:8080/users/reg
+Content-Type: application/json
+
+{
+  "type": "ADMIN",
+  "nickname": "noximt",
+  "password": "qwertyadmin",
+  "email": "notneeded@email.com"
+}
+
+###
+
+POST http://localhost:8080/users/reg
+Content-Type: application/json
+
+{
+  "type": "USER",
+  "nickname": "sasha",
+  "password": "simplePassword",
+  "email": "noximt@gmail.com"
+}
+
+###
+
+POST http://localhost:8080/users/reg
+Content-Type: application/json
+
+{
+  "type": "USER",
+  "nickname": "yauheni",
+  "password": "difficultPass",
+  "email": "noximtgames@gmail.com"
+}
+
+###
+
+GET http://localhost:8080/users/auth?nickname=noximt&password=qwertyadmin
+
+###
+
+GET http://localhost:8080/users/auth?nickname=sasha&password=simplePassword
+
+###
+
+GET http://localhost:8080/users/auth?nickname=yauheni&password=difficultPass
+
+###
