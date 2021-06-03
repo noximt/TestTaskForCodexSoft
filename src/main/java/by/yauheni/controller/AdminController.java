@@ -35,7 +35,7 @@ public class AdminController {
     }
 
     @DeleteMapping(path = "/deleteItem")
-    @ApiOperation("delete item")
+    @ApiOperation("Delete item")
     public ResponseEntity<HttpStatus> deleteItem(@RequestParam String name){
         ResponseEntity<HttpStatus> response = itemService.delete(name);
         return response;

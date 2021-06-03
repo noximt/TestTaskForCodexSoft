@@ -1,6 +1,6 @@
 POST http://localhost:8080/admin/saveItem
 Content-Type: application/json
-X-Token:47d73d74-5df5-4a45-b448-2bb7793e6b1d
+X-Token: fd6d4107-9e2b-4f08-afd9-ae7574b1424d
 
 {
   "name": "Shovel",
@@ -17,7 +17,7 @@ X-Token:47d73d74-5df5-4a45-b448-2bb7793e6b1d
 
 PATCH http://localhost:8080/admin/updateItem
 Content-Type: application/json
-X-Token: 6a84026b-47d5-40e9-b2ca-0e2d0b7aa0b3
+X-Token: 5b473da4-3bf7-4703-a626-300560f51c84
 
 {
   "name": "Drill",

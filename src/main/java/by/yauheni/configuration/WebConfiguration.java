@@ -4,13 +4,10 @@ import by.yauheni.interceptor.PermissionInterceptor;
 import by.yauheni.interceptor.TokenInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.*;
 
 @Configuration
-@EnableWebMvc
-public class WebConfiguration extends WebMvcConfigurerAdapter {
+public class WebConfiguration implements WebMvcConfigurer {
     private final TokenInterceptor tokenInterceptor;
     private final PermissionInterceptor permissionInterceptor;
 
@@ -22,7 +19,7 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(tokenInterceptor).addPathPatterns("/admin/*", "/items/*", "/users/addToCart", "/users/removeFromCart", "/users/buy, /users/search");
-        registry.addInterceptor(permissionInterceptor).addPathPatterns("/admin/*");
+        registry.addInterceptor(tokenInterceptor).addPathPatterns("/admin/**", "/items/**", "/users/addToCart", "/users/removeFromCart", "/users/buy, /users/search");
+        registry.addInterceptor(permissionInterceptor).addPathPatterns("/admin/**");
     }
 }

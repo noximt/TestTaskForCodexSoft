@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.WebRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -47,23 +48,23 @@ public class UserController {
 
     @PostMapping(path = "/addToCart")
     @ApiOperation("Add item to cart")
-    public ResponseEntity<HttpStatus> addToCart(@RequestBody Item item, HttpServletRequest request) {
-        User user = (User) request.getAttribute("user");
+    public ResponseEntity<HttpStatus> addToCart(@RequestBody Item item, WebRequest webRequest) {
+        User user = (User) webRequest.getAttribute("user", 0);
         ResponseEntity<HttpStatus> response = cartService.addToCart(item, user);
         return response;
     }
 
     @PostMapping(path = "/removeFromCart")
     @ApiOperation("Remove item from cart")
-    public ResponseEntity<HttpStatus> removeFromCart(@RequestBody Item item, HttpServletRequest request){
-        User user = (User) request.getAttribute("user");
+    public ResponseEntity<HttpStatus> removeFromCart(@RequestBody Item item, WebRequest webRequest) {
+        User user = (User) webRequest.getAttribute("user", 0);
         ResponseEntity<HttpStatus> response = cartService.removeFromCart(item, user);
         return response;
     }
 
     @PostMapping("/buy")
     @ApiOperation("Buy item")
-    public ResponseEntity<HttpStatus> buy(@RequestBody Cart cart){
+    public ResponseEntity<HttpStatus> buy(@RequestBody Cart cart) {
         ResponseEntity<HttpStatus> response = userService.buy(cart);
         return response;
     }
