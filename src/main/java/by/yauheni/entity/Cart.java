@@ -23,4 +23,9 @@ public class Cart {
     public Cart(User user) {
         this.user = user;
     }
+
+    public Cart(User user, List<Item> items) {
+        this.user = user;
+        this.items = items;
+    }
 }

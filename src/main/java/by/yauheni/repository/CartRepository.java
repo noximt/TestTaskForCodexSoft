@@ -4,7 +4,6 @@ import by.yauheni.entity.Item;
 import by.yauheni.entity.Cart;
 import by.yauheni.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 

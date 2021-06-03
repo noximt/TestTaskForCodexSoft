@@ -2,6 +2,7 @@ package by.yauheni.repository;
 
 import by.yauheni.entity.Type;
 import by.yauheni.entity.User;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -9,9 +10,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 public class UserRepositoryTests {
-    private final User user = new User(Type.USER,"nickname", "password", "e-mail");
+    private User user;
     @Autowired
     private UserRepository userRepository;
+
+    @BeforeEach
+    void init(){
+        this.user = new User(Type.USER,"nickname", "password", "e-mail");
+    }
 
     @Test
     void saveUserTest(){
