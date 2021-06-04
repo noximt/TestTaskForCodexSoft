@@ -3,7 +3,7 @@ Content-Type: application/json
 
 {
   "type": "ADMIN",
-  "nickname": "noximt",
+  "nickname": "admin1",
   "password": "qwertyadmin",
   "email": "notneeded@email.com"
 }
@@ -15,9 +15,9 @@ Content-Type: application/json
 
 {
   "type": "USER",
-  "nickname": "sasha",
+  "nickname": "user1",
   "password": "simplePassword",
-  "email": "noximt@gmail.com"
+  "email": "some@gmail.com"
 }
 
 ###
@@ -27,21 +27,21 @@ Content-Type: application/json
 
 {
   "type": "USER",
-  "nickname": "yauheni",
+  "nickname": "user2",
   "password": "difficultPass",
-  "email": "noximtgames@gmail.com"
+  "email": "email@gmail.com"
 }
 
 ###
 
-GET http://localhost:8080/users/auth?nickname=noximt&password=qwertyadmin
+GET http://localhost:8080/users/auth?nickname=admin1&password=qwertyadmin
 
 ###
 
-GET http://localhost:8080/users/auth?nickname=sasha&password=simplePassword
+GET http://localhost:8080/users/auth?nickname=user1&password=simplePassword
 
 ###
 
-GET http://localhost:8080/users/auth?nickname=yauheni&password=difficultPass
+GET http://localhost:8080/users/auth?nickname=user2&password=difficultPass
 
 ###

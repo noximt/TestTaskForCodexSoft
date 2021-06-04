@@ -37,7 +37,7 @@ public class UserController {
     @ApiOperation("User registration")
     public ResponseEntity<HttpStatus> register(@RequestBody User user) {
         boolean bool = userService.register(user);
-        if (bool){
+        if (bool) {
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         }
         return new ResponseEntity<>(HttpStatus.FORBIDDEN);
@@ -47,7 +47,7 @@ public class UserController {
     @ApiOperation("User authorization")
     public ResponseEntity<String> authorize(@RequestParam String nickname, @RequestParam String password) {
         String authorize = userService.authorize(nickname, password);
-        if (authorize.equals("Wrong data")){
+        if (authorize.equals("Wrong data")) {
             return new ResponseEntity<>(authorize, HttpStatus.FORBIDDEN);
         }
         return new ResponseEntity<>(authorize, HttpStatus.ACCEPTED);
@@ -58,7 +58,7 @@ public class UserController {
     public ResponseEntity<HttpStatus> addToCart(@RequestBody Item item, WebRequest webRequest) {
         User user = (User) webRequest.getAttribute("user", 0);
         boolean bool = cartService.addToCart(item, user);
-        if (bool){
+        if (bool) {
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         }
         return new ResponseEntity<>(HttpStatus.FORBIDDEN);
@@ -80,7 +80,7 @@ public class UserController {
     @ApiOperation("Buy item")
     public ResponseEntity<HttpStatus> buy(@RequestBody Cart cart) {
         boolean bool = userService.buy(cart);
-        if (bool){
+        if (bool) {
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         }
         return new ResponseEntity<>(HttpStatus.FORBIDDEN);
@@ -90,7 +90,7 @@ public class UserController {
     @ApiOperation("Search for item by description")
     public ResponseEntity<Item> searchByDescription(@RequestParam String description) {
         Optional<Item> item1 = itemService.searchByDescription(description);
-        if (item1.isPresent()){
+        if (item1.isPresent()) {
             Item item = item1.get();
             return new ResponseEntity<>(item, HttpStatus.ACCEPTED);
         }

@@ -47,17 +47,17 @@ public class ItemRepositoryTests {
         assertEquals(this.item, byId);
     }
 
-//    @Test
-//    void findByTagTest(){
-//        Tag tag = new Tag(1, "tool");
-//        tagRepository.save(tag);
-//        List<Tag> tags = new ArrayList<>();
-//        tags.add(tag);
-//        this.item.setTags(tags);
-//        itemRepository.save(this.item);
-//        Item byTagsContains = itemRepository.findByTagsContains(tag);
-//        assertEquals(this.item, byTagsContains);
-//    }
+    @Test
+    void findByTagTest(){
+        Tag tag = new Tag(1, "tool");
+        tagRepository.save(tag);
+        List<Tag> tags = new ArrayList<>();
+        tags.add(tag);
+        this.item.setTags(tags);
+        itemRepository.save(this.item);
+        List<Item> byTagsContains = itemRepository.findByTagsContains(tag);
+        assertEquals(this.item, byTagsContains.get(0));
+    }
 
     @Test
     void findByDescriptionTest(){
